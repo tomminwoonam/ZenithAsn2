@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ZenithWebsite</title>
+    <title>@ViewData["Title"] - Zenith Society</title>
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -30,9 +30,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Activities" asp-action="Index">Activites</a></li>
-                    <li><a asp-area="" asp-controller="Events" asp-action="Index">Events</a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li><a asp-area="" asp-controller="Activities" asp-action="Index">Activites</a></li>
+                        <li><a asp-area="" asp-controller="Events" asp-action="Index">Events</a></li>
+                        <li><a asp-area="" asp-controller="Roles" asp-action="Index">Roles</a></li>
+                        <li><a asp-area="" asp-controller="UserRoles" asp-action="Index">Users</a></li>
+                    }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -41,9 +45,6 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; 2017 - ZenithWebsite</p>
-        </footer>
     </div>
 
     <environment names="Development">

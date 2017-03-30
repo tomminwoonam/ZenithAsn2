@@ -4,15 +4,19 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ZenithWebsite.Models.AccountViewModels
+namespace ZenithWebsite.Models.UserRolesViewModels
 {
-    public class ExternalLoginConfirmationViewModel
+    public class UserRolesViewModel
     {
-        [Required]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
 
-        [Required]
+        [Display(Name = "Roles")]
+        public ICollection<String> Roles { get; set; }
+
         [EmailAddress]
+        [Display(Name = "Email")]
         public string Email { get; set; }
+
     }
 }

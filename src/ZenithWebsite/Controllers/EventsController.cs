@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ZenithWebsite.Data;
 using ZenithWebsite.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ZenithWebsite.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class EventsController : Controller
     {
         private readonly ApplicationDbContext _context;

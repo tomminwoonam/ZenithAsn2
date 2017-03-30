@@ -17,13 +17,9 @@
                 <select asp-for="ActivityId" class ="form-control" asp-items="ViewBag.ActivityId"></select>
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="CreationDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="CreationDate" class="form-control" />
-                <span asp-validation-for="CreationDate" class="text-danger" />
-            </div>
-        </div>
+
+        @Html.Hidden("CreationDate", DateTime.Now)
+
         <div class="form-group">
             <label asp-for="DateFrom" class="col-md-2 control-label"></label>
             <div class="col-md-10">
