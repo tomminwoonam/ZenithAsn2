@@ -36,7 +36,6 @@ namespace ZenithWebsite.Controllers
                 var userView = new UserRolesViewModel()
                 {
                     UserName = usr.UserName,
-                    Email = usr.Email,
                     Roles = roles
                 };
                 usersView.Add(userView);
@@ -54,7 +53,6 @@ namespace ZenithWebsite.Controllers
             var viewModel = new EditRolesViewModel()
             {
                 UserName = user.UserName,
-                Email = user.Email,
                 Roles = usersRoles
             };
 
@@ -97,7 +95,6 @@ namespace ZenithWebsite.Controllers
             var viewModel = new EditRolesViewModel()
             {
                 UserName = user.UserName,
-                Email = user.Email,
                 Roles = usersRoles
             };
 

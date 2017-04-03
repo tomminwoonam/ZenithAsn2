@@ -11,9 +11,6 @@
                 @Html.DisplayNameFor(model => model.UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Roles)
             </th>
             <th></th>
@@ -25,9 +22,6 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
                     @foreach (var role in item.Roles)

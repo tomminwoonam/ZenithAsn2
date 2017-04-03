@@ -14,10 +14,6 @@ namespace ZenithWebsite.Models.UserRolesViewModels
         [Display(Name = "Roles")]
         public ICollection<String> Roles { get; set; }
 
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
         [Required]
         [Display(Name = "Role To Add")]
         public string SelectedRole { get; set; }

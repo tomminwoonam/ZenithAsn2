@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using ZenithWebsite.Data;
 using ZenithWebsite.Models;
 using ZenithWebsite.Services;
+using AspNet.Security.OpenIdConnect.Primitives;
 
 namespace ZenithWebsite
 {
@@ -41,13 +42,39 @@ namespace ZenithWebsite
         {
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                {
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                    options.UseOpenIddict();
+                });
+            
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+            });
+
+            services.AddOpenIddict(options =>
+            {
+                // Register the Entity Framework stores.
+                options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
+                // Register the ASP.NET Core MVC binder used by OpenIddict.
+                // Note: if you don't call this method, you won't be able to
+                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
+                options.AddMvcBinders();
+                // Enable the token endpoint.
+                options.EnableTokenEndpoint("/connect/token");
+                // Enable the password flow.
+                options.AllowPasswordFlow();
+                // During development, you can disable the HTTPS requirement.
+                options.DisableHttpsRequirement();
+            });
+
+            services.AddMvc();
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
-            services.AddMvc();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -75,14 +102,10 @@ namespace ZenithWebsite
 
             app.UseIdentity();
 
-            // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseOAuthValidation();
+            app.UseOpenIddict();
+            
+            app.UseMvcWithDefaultRoute();
 
             SeedData.Initialize(context);
         }

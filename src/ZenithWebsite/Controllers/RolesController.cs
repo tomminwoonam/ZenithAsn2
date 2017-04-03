@@ -97,13 +97,14 @@ namespace ZenithWebsite.Controllers
             {
                 var role = await _roleManager.FindByIdAsync(roleView.RoleId);
                 role.Name = roleView.RoleName;
-                var result = await _roleManager.UpdateAsync(role);
 
                 if (role.NormalizedName == "ADMIN")
                 {
                     ModelState.AddModelError(string.Empty, "Admin cannot be edited");
                     return View(roleView);
                 }
+
+                var result = await _roleManager.UpdateAsync(role);
 
                 if (result.Succeeded)
                 {
